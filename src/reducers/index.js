@@ -1,3 +1,5 @@
-// Set up your root reducer here...
  import { combineReducers } from 'redux';
- export default combineReducers;
+ import {universities} from './universitiesReducer';
+
+ const reducer = combineReducers({universities});
+ export default reducer;
