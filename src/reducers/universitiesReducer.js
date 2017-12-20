@@ -1,4 +1,4 @@
-import initialState from './initialState'
+import initialState from './initialState';
 import {
   SELECT_UNIVERSITY
 } from '../constants/actionTypes';
