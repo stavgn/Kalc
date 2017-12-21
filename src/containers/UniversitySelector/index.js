@@ -6,7 +6,7 @@ import { selectUniversity } from '../../actions/universitiesActions';
 import UniversityLabel from '../../components/UniversityLabel/';
 import styles from './styles';
 
-class UniversitySelector extends React.PureComponent {
+export class UniversitySelector extends React.PureComponent {
   static propTypes = {
     universities: PropTypes.array.isRequired,
     selectUniversity: PropTypes.func.isRequired

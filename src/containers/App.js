@@ -5,6 +5,7 @@ import '../../node_modules/materialize-css/dist/css/materialize.min.css';
 import NavBar from '../components/NavBar';
 import UniversitySelector from './UniversitySelector/';
 import ShortAbout from '../components/ShortAbout';
+import GradesForm from './GradesForm';
 
 
 export default class App extends React.Component {
@@ -15,6 +16,7 @@ export default class App extends React.Component {
         <div className="container">
           <ShortAbout />
           <UniversitySelector />
+          <GradesForm />
         </div>
       </div>
     );
