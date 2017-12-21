@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'Assistant';
+  src: url(/static/fonts/Assistant/Assistant-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Assistant Bold';
+  src: url(/static/fonts/Assistant/Assistant-Bold.ttf);
+}

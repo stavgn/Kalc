@@ -24,6 +24,11 @@ export default {
     filename: '[name].[chunkhash].js'
   },
   plugins: [
+    new webpack.ProvidePlugin({
+         $: 'jquery',
+         jQuery: 'jquery',
+         'window.jQuery': 'jquery',
+       }),    
     // Hash the files using MD5 so that their names change when the content changes.
     new WebpackMd5Hash(),
 

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import PropTypes from 'prop-types';
 import { AppContainer } from 'react-hot-loader';
 import App from './containers/App';
 import configureStore, { history } from './store/configureStore';
