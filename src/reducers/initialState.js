@@ -24,6 +24,41 @@ export default {
     },
   },
   userTypedGrades: {
-
+    [UUID()]: {
+      name: 'מתמטיקה',
+      grade: '',
+      numOfUnits: 3
+    },
+    [UUID()]: {
+      name: 'אנגלית',
+      grade: '',
+      numOfUnits: 3
+    },
+    [UUID()]: {
+      name: 'ספרות עברית',
+      grade: '',
+      numOfUnits: 2
+    },
+    [UUID()]: {
+      name: 'הבעה עברית',
+      grade: '',
+      numOfUnits: 2
+    },
+    [UUID()]: {
+      name: 'היסטוריה',
+      grade: '',
+      numOfUnits: 2
+    },
+    [UUID()]: {
+      name: 'תנך',
+      grade: '',
+      numOfUnits: 2
+    },
+    [UUID()]: {
+      name: 'אזרחות',
+      grade: '',
+      numOfUnits: 2
+    },
+    ExtendedStudies: []
   }
 };
