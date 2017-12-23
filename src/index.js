@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { AppContainer } from 'react-hot-loader';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import App from './containers/App';
 import configureStore, { history } from './store/configureStore';
 
@@ -11,11 +12,13 @@ const store = configureStore();
 const AppWrapper = (App) => {
   return (
     <AppContainer>
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </Provider>
+      <MuiThemeProvider>
+        <Provider store={store}>
+          <ConnectedRouter history={history}>
+            <App />
+          </ConnectedRouter>
+        </Provider>
+      </MuiThemeProvider>
     </AppContainer>
   );
 };

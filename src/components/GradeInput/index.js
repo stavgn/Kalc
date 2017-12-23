@@ -1,19 +1,62 @@
 import React from 'React';
+import PropTypes from 'prop-types';
+import TextField from 'material-ui/TextField';
+import UUID from 'uuid/v4';
 
 export default class GradeInput extends React.PureComponent {
-  constructor() {
-    super();
+  static propTypes = {
+    value: PropTypes.string,
+    error: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired
+  }
+
+  constructor(props) {
+    super(props);
     this.state = {
-      gradeValue: ''
+      shouldDispalyError: false,
+      errorText: ''
     };
   }
-  handleGradeEntry(e){
-    const { target: { value }} = e;
-    if (value >=0 && value <= 100) {
-      this.setState({gradeValue: value});
+
+  componentWillReceiveProps(nextProps) {
+    let nextState = {};
+    if(!this.state.shouldDisplayError && nextProps.value != ''){
+      nextState = {shouldDispalyError: true, errorText: nextProps.error  ? ' ' : '' };
+    }
+    else {
+      nextState = {errorText: nextProps.error  ? ' ' : '' };
+    }
+    this.setState(nextState);
+  }
+
+  handleGradeEntry(value){
+    if(this.validateInput(value)) {
+       this.props.onChange('GradeInput', value == '' ? value : parseInt(value).toString());
+     }
+  }
+
+  validateInput(input) {
+    return (input >= 0 && input <= 100) || input == '';
+  }
+
+  filterKeyPress(e) {
+    if (e.which != 8 && e.which != 0 && e.which < 48 || e.which > 57) {
+        e.preventDefault();
     }
   }
+  
   render() {
-    return <input style={{ textAlign: 'center' }} type="number" min="0" max="100" value={this.state.gradeValue} onChange={(e) => this.handleGradeEntry(e)} required/>;
+    return (<TextField
+            id={UUID()}
+            fullWidth
+            inputStyle={{ textAlign: 'center' }}
+            type="number"
+            min="0" max="100"
+            value={this.props.value}
+            errorText={this.state.shouldDispalyError && this.state.errorText}
+            onChange={(e) => this.handleGradeEntry(e.target.value)}
+            onKeyPress={(e) => this.filterKeyPress(e)}
+            required
+            />);
   }
 }

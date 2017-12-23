@@ -11,7 +11,7 @@ export const getMandotryStudiesFromState = (userTypedGrades) => {
       const {name, numOfUnits} = userTypedGrades[curr];
       return {
         ...acc,
-        [curr]: {name, numOfUnits}
+        [curr]: {name, minNumOfUnits: numOfUnits}
       };
     }
     return acc;

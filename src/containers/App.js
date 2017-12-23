@@ -1,7 +1,5 @@
 import React from 'react';
 import { Route } from 'react-router';
-import 'materialize-css';
-window.$ = window.jQuery = require("jquery");
 import '../../node_modules/materialize-css/dist/css/materialize.min.css';
 import NavBar from '../components/NavBar';
 import UniversitySelector from './UniversitySelector/';
