@@ -19,11 +19,6 @@ export class UniversitySelector extends React.PureComponent {
       'Tel-Aviv University': '../../static/images/TLVLogo.png'
     }
 
-  constructor(props) {
-    super(props);
-    this.selected = [];
-  }
-
   handleUniversitySelection(id) {
     this.props.selectUniversity(id);
   }
