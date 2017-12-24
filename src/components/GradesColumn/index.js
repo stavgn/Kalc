@@ -33,12 +33,9 @@ export default class GradesColumn extends React.PureComponent {
   }
 
   handleUserInput = (inputSrc, inputVal, errorText = '') => {
-    const newErrorTexts = {
-      ...this.state.errorTexts,
-      [inputSrc]: errorText
-    };
+    const newErrorTexts = this.buildNewErrorTextsObj();
     this.setState({
-      isAllValid: Object.values(newErrorTexts).join('').length == 0,
+      isAllValid: this.isAllValid(newErrorTexts),
       errorTexts: newErrorTexts,
       [inputSrc]: {
         isValid: errorText.length == 0,
@@ -47,8 +44,23 @@ export default class GradesColumn extends React.PureComponent {
     });
   }
 
+  buildNewErrorTextsObj(inputSrc, errorText) {
+    return {
+      ...this.state.errorTexts,
+      [inputSrc]: errorText
+    };
+  }
+
+  isAllValid(ErrorTexts = this.state.errorTexts) {
+    return Object.values(ErrorTexts).join('').length == 0;
+  }
+
+  generateErrorTextForDisplay(){
+    return this.state.isAllValid ? '' : Object.values(this.state.errorTexts).join('. ');
+  }
+
   render() {
-    const errorText = this.state.isAllValid ? '' : Object.values(this.state.errorTexts).join('. ');
+    const errorText = this.generateErrorTextForDisplay();
     return (
           <div>
             <div className={`input-field col s1 offset-${this.props.offset}`}>
