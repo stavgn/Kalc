@@ -30,6 +30,7 @@
   "author": "Cory House",
   "license": "MIT",
   "dependencies": {
+    "jquery": "3.2.1",
     "object-assign": "4.1.0",
     "react": "16.2.0",
     "react-dom": "16.2.0",
@@ -46,6 +47,7 @@
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.1",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-plugin-transform-react-constant-elements": "6.23.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.6",
     "babel-polyfill": "6.23.0",
@@ -53,6 +55,7 @@
     "babel-preset-react": "6.24.1",
     "babel-preset-react-hmre": "1.1.1",
     "babel-preset-stage-1": "6.24.1",
+    "babel-preset-stage-2": "6.24.1",
     "browser-sync": "2.18.12",
     "chalk": "2.0.1",
     "concurrently": "3.5.0",
@@ -132,7 +135,8 @@
           "env",
           "react",
           "react-hmre",
-          "stage-1"
+          "stage-1",
+          "stage-2"
         ]
       },
       "production": {
@@ -154,7 +158,8 @@
         ],
         "plugins": [
           "transform-react-constant-elements",
-          "transform-react-remove-prop-types"
+          "transform-react-remove-prop-types",
+          "transform-object-rest-spread"
         ]
       },
       "test": {
