@@ -20,6 +20,7 @@ export default class GradesForm extends React.PureComponent {
             <GradesColumn offset="s2"/>
           </GradesRow>
         </form>
-      </div>);
+      </div>
+    );
   }
 }

@@ -4,13 +4,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import GradesRow from '../../components/GradesRow';
 import GradesColumn from '../../components/GradesColumn';
-import { getMandotryStudiesFromState } from '../../reducers/userTypedGradesReducer'
+import { getMandotryStudiesFromState } from '../../reducers/userTypedGradesReducer';
 
 export class MandatoryStudiesGradesForm extends React.Component {
   static propTypes = {
     mandatoryStudies: PropTypes.object.isRequired
   }
-  
+
   render() {
     const { mandatoryStudies } = this.props;
     return  Object.keys(mandatoryStudies).map((curr, index, arr) => {

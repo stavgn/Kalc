@@ -58,7 +58,7 @@ export default class GradesColumn extends React.PureComponent {
               <NumOfUnitsSelector onChange={this.handleUserInput} error={!this.state.NumOfUnitsSelector.isValid} value={this.state.NumOfUnitsSelector.value}/>
             </div>
             <div className="input-field col s3">
-              <StudyInput onChange={this.handleUserInput} errorText={errorText} value={this.state.StudyInput.value} disabled={this.props.name && true}/>
+              <StudyInput onChange={this.handleUserInput} errorText={errorText} value={this.state.StudyInput.value} {...(this.props.name && {disabled: true})}/>
             </div>
           </div>
         );
