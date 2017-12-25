@@ -24,9 +24,10 @@ export default class UniversityLabel extends React.PureComponent {
   }
   render() {
     return (
-        <div style={styles.col} className="col s2">
+        <div className="col s3 ">
           <div onClick={()=> this.selectUniversity()} style={styles.labelWrapper} className={this.state.isSelected ? "card blue-grey lighten-5" : "card"}>
-            <img style={styles.img} className="responsive-img" src={this.props.logoURL} />
+            <span style={styles.spanHelper} />
+            <img style={styles.img} className="" src={this.props.logoURL} />
           </div>
         </div>
       );

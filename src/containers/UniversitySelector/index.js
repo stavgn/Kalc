@@ -18,7 +18,7 @@ class UniversitySelector extends React.PureComponent {
       'The Hebrew University': '../../static/images/HEBLogo.png',
       'Tel-Aviv University': '../../static/images/TLVLogo.png'
     }
-    
+
   handleUniversitySelection(id) {
     this.props.selectUniversity(id);
   }
@@ -26,7 +26,6 @@ class UniversitySelector extends React.PureComponent {
   render() {
     return (
       <div style={styles} className="row center-align">
-      <div className="col s2"/>
       {
         this.props.universities.map((curr) => {
           return <UniversityLabel key={curr.id} handleUniversitySelection={(id) => this.handleUniversitySelection(id)} {...curr} />;

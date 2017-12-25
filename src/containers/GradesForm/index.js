@@ -11,7 +11,7 @@ import GradesColumn from '../../components/GradesColumn';
 export default class GradesForm extends React.PureComponent {
   render() {
     return (
-      <div className="container">
+      <div className="">
         <GradeHeadRow />
         <form>
           <MandatoryStudiesGradesForm />
