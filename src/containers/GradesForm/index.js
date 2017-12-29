@@ -4,21 +4,17 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import GradeHeadRow from '../../components/GradeHeadRow';
 import MandatoryStudiesGradesForm from '../MandatoryStudiesGradesForm';
-import GradesRow from '../../components/GradesRow';
-import GradesColumn from '../../components/GradesColumn';
+import ExtendedStudiesForm from '../ExtendedStudiesForm';
 
 
 export default class GradesForm extends React.PureComponent {
   render() {
     return (
-      <div className="">
+      <div>
         <GradeHeadRow />
         <form>
           <MandatoryStudiesGradesForm />
-          <GradesRow>
-            <GradesColumn />
-            <GradesColumn offset="s2"/>
-          </GradesRow>
+          <ExtendedStudiesForm />
         </form>
       </div>
     );

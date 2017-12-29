@@ -32,6 +32,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDisptachToProps = () => ({});
-
-export default connect(mapStateToProps, mapDisptachToProps)(MandatoryStudiesGradesForm);
+export default connect(mapStateToProps)(MandatoryStudiesGradesForm);

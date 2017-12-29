@@ -33,7 +33,7 @@ export default class GradesColumn extends React.PureComponent {
   }
 
   handleUserInput = (inputSrc, inputVal, errorText = '') => {
-    const newErrorTexts = this.buildNewErrorTextsObj();
+    const newErrorTexts = this.buildNewErrorTextsObj(inputSrc, errorText);
     this.setState({
       isAllValid: this.isAllValid(newErrorTexts),
       errorTexts: newErrorTexts,

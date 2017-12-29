@@ -12,11 +12,14 @@ export default class StudyInput extends React.Component {
   }
 
   handleStudyEntry(value, autoComplete){
-    if(autoComplete.find((element) => element.match(new RegExp(value, 'g')))) {
+    if (typeof autoComplete == Array){
+      if(autoComplete.find((element) => element.match(new RegExp(value, 'g')))) {
+        this.props.onChange('StudyInput', value);
+      } else if (this.checkForEnglishChar(value)) {
+        this.props.onChange('StudyInput', '', 'שנה שפה לעברית');
+      }
+    } else {
       this.props.onChange('StudyInput', value);
-    } else if (this.checkForEnglishChar) {
-      this.props.onChange('StudyInput', '', 'שנה שפה לעברית');
-
     }
   }
 
