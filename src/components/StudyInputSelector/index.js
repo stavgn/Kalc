@@ -12,7 +12,7 @@ export default class StudyInput extends React.Component {
   }
 
   handleStudyEntry(value, autoComplete){
-    if (typeof autoComplete == Array){
+    if (typeof autoComplete == 'object'){
       if(autoComplete.find((element) => element.match(new RegExp(value, 'g')))) {
         this.props.onChange('StudyInput', value);
       } else if (this.checkForEnglishChar(value)) {
@@ -40,6 +40,7 @@ export default class StudyInput extends React.Component {
                 dataSource={ExtendedStudies}
                 searchText={this.props.value}
                 errorStyle={{font: '13px Assistant Light'}}
+                hintText="הקלד מקצוע מוגבר"
               />
             );
   }

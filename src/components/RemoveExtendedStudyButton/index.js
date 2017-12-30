@@ -8,8 +8,8 @@ export default class AddExtendedStudyButton extends React.Component {
   }
   render() {
     return (
-          <a onClick={this.props.onClick} style={styles.icon} className="btn-floating btn-meduim waves-effect waves-light red">
-            <i style={styles.add} className="material-icons">add</i>
+          <a onClick={this.props.onClick} style={styles.icon} className="btn-floating btn-meduim waves-effect waves-light cyan">
+            <i style={styles.remove} className="material-icons dp48">remove</i>
           </a>
 
     );

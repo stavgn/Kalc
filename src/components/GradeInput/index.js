@@ -6,8 +6,11 @@ import UUID from 'uuid/v4';
 export default class GradeInput extends React.PureComponent {
   static propTypes = {
     value: PropTypes.string,
-    error: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired
+    error: PropTypes.bool,
+    errorText: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    min: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired
   }
 
   constructor(props) {
@@ -21,7 +24,7 @@ export default class GradeInput extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     let nextState = {};
     if(!this.state.shouldDisplayError && nextProps.value != ''){
-      nextState = {shouldDispalyError: true, errorText: nextProps.error  ? ' ' : '' };
+      nextState = {shouldDispalyError: true, errorText: nextProps.error  ? ' ' : '' || nextProps.errorText };
     }
     else {
       nextState = {errorText: nextProps.error  ? ' ' : '' };
@@ -30,32 +33,35 @@ export default class GradeInput extends React.PureComponent {
   }
 
   handleGradeEntry(value){
-    if(this.validateInput(value)) {
-       this.props.onChange('GradeInput', value == '' ? value : parseInt(value).toString());
-     }
+   this.props.onChange('GradeInput', value == '' ? value : parseInt(value).toString(),
+   this.validateInput(value) ?
+   '' :
+   `על הציון להיות בין ${this.props.min} ל-${this.props.max}`);
+
   }
 
   validateInput(input) {
-    return (input >= 0 && input <= 100) || input == '';
+    return (input >= this.props.min && input <= this.props.max) || input == '';
   }
 
   filterKeyPress(e) {
     if (e.which != 8 && e.which != 0 && e.which < 48 || e.which > 57) {
-        e.preventDefault();
+      e.preventDefault();
     }
   }
-  
+
   render() {
     return (<TextField
             id={UUID()}
             fullWidth
-            inputStyle={{ textAlign: 'center' }}
+            inputStyle={{ textAlign: 'center', margin : 0}}
             type="number"
-            min="0" max="100"
+            min={this.props.min} max={this.props.max}
             value={this.props.value}
             errorText={this.state.shouldDispalyError && this.state.errorText}
             onChange={(e) => this.handleGradeEntry(e.target.value)}
             onKeyPress={(e) => this.filterKeyPress(e)}
+            errorStyle={{font: '13px Assistant Light', textAlign: 'right'}}            
             required
             />);
   }

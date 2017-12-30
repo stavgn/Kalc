@@ -64,7 +64,7 @@ export default class GradesColumn extends React.PureComponent {
     return (
           <div>
             <div className={`input-field col s1 offset-${this.props.offset}`}>
-              <GradeInput onChange={this.handleUserInput} error={!this.state.GradeInput.isValid} value={this.state.GradeInput.value}/>
+              <GradeInput onChange={this.handleUserInput} error={!this.state.GradeInput.isValid} value={this.state.GradeInput.value} min={0} max={100}/>
             </div>
             <div className="input-field col s1">
               <NumOfUnitsSelector onChange={this.handleUserInput} error={!this.state.NumOfUnitsSelector.isValid} value={this.state.NumOfUnitsSelector.value}/>
