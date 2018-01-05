@@ -9,23 +9,66 @@ import PsychometricForm from '../../components/PsychometricForm';
 import styles from './styles';
 
 
-export default class GradesForm extends React.PureComponent {
+class GradesForm extends React.PureComponent {
+  constructor(props) {
+    super(props);
+  }
+
+  state = {
+    isValid: {
+      MandatoryStudiesGradesForm: false,
+      ExtendedStudiesForm: false,
+      PsychometricForm: false
+    }
+  }
+
+  updateValidation = (inputSrc, value) => {
+    this.setState((prevState) => ({
+      isValid : {
+        ...prevState.isValid,
+        [inputSrc]: value
+      }
+    }));
+
+    console.log(inputSrc, value);
+  }
+
+  isAllValid() {
+    const { MandatoryStudiesGradesForm, ExtendedStudiesForm, PsychometricForm } = this.state.isValid;
+    return MandatoryStudiesGradesForm && ExtendedStudiesForm && PsychometricForm;
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const data = new FormData(e.target);
+    console.log(data);
+  }
+
   render() {
     return (
       <div>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <div style={{padding: '15px'}} className="card">
             <GradeHeadRow />
-            <MandatoryStudiesGradesForm />
+            <MandatoryStudiesGradesForm onValidation={this.updateValidation} />
           </div>
           <div style={styles.card} className="card">
-            <ExtendedStudiesForm />
+            <ExtendedStudiesForm onValidation={this.updateValidation} />
           </div>
           <div style={styles.card} className="card">
-            <PsychometricForm />
+            <PsychometricForm onValidation={this.updateValidation} />
+          </div>
+          <div className="row">
+            <input type="submit" value="SUBMIT" />
           </div>
         </form>
       </div>
     );
   }
 }
+//
+
+const mapStateToProps = (state) => (state);
+const mapDispatchToProps = () => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GradesForm);

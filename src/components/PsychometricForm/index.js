@@ -12,15 +12,13 @@ export default class PsychometricForm extends React.PureComponent {
     super(props);
       this.state = {
         isValid: false,
-        value: '',
         errorText: '',
       };
   }
 
-  handleGradeEntry(inputSrc, value, errorText = '') {
+  updateValidation = (inputSrc, value, {errorText = ''} = {}) => {
     this.setState({
       isValid: errorText.length > 0,
-      value,
       errorText: errorText
     });
   }
@@ -32,9 +30,8 @@ export default class PsychometricForm extends React.PureComponent {
               <div className="col s4 offset-s2">
                 <GradeInput
                 min={200} max={800}
-                onChange={(inputSrc, value, errorText) =>  this.handleGradeEntry(inputSrc, value, errorText)}
+                onValidation={this.updateValidation}
                 errorText={this.state.errorText}
-                value={this.state.value}
                 />
               </div>
               <div style={{direction: 'rtl'}} className="col s4">

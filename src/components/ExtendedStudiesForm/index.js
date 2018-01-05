@@ -6,30 +6,73 @@ import GradesColumn from '../GradesColumn';
 import AddExtendedStudyButton from '../AddExtendedStudyButton';
 import RemoveExtendedStudyButton from '../RemoveExtendedStudyButton';
 
-
 export default class ExtendedStudiesForm extends React.PureComponent {
+  static propTypes = {
+    onValidation: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props);
+    const studyId = UUID();
     this.state = {
+      isAllValid: false,
+      validations: {
+        [studyId]: false
+      },
       extendedStudies: [
         <GradesRow key={UUID()}>
-          <GradesColumn key={UUID()} offset="s7"/>
+          <GradesColumn id={studyId} onValidation={this.updateValidation} key={studyId} offset="s7"/>
         </GradesRow>
-      ]
+      ],
     };
   }
 
-  addExtendedStudy() {
-    this.setState(({ extendedStudies }) => {
-        return {
-          extendedStudies: extendedStudies[extendedStudies.length - 1].props.children instanceof Array ?
-            this.buildNextRow(extendedStudies) :
-            this.addCoumnToExistingRow(extendedStudies)
-        };
+  updateValidation = (studyId, isValid) => {
+    const validations = this.buildNewValidationsObj(studyId,isValid),
+          isAllValid = this.isAllValid(validations);
+
+    if(this.state.isAllValid != isAllValid) {
+      this.props.onValidation('ExtendedStudiesForm',isAllValid);
+    }
+
+    this.setState({
+      isAllValid,
+      validations
     });
   }
 
-  addCoumnToExistingRow(prevExtendedStudies) {
+  buildNewValidationsObj(studyId,isValid) {
+    return {
+      ...this.state.validations,
+      [studyId]: isValid
+    };
+  }
+
+  isAllValid(validations = this.state.validations) {
+    return Object.values(validations).reduce((acc, curr) => acc && curr, true);
+  }
+
+  addExtendedStudy() {
+    if(this.state.isAllValid != false) {
+      this.props.onValidation('ExtendedStudiesForm', false);
+    }
+    const studyId = UUID();
+    this.setState(({ extendedStudies,  validations}) => {
+        return {
+          isAllValid: false,
+          extendedStudies: extendedStudies[extendedStudies.length - 1].props.children instanceof Array ?
+            this.buildNextRow(extendedStudies, studyId) :
+            this.addCoumnToExistingRow(extendedStudies, studyId),
+          validations: {
+            ...validations,
+            [studyId]: false
+          }
+        };
+    });
+
+  }
+
+  addCoumnToExistingRow(prevExtendedStudies, studyId) {
     return [
       ...prevExtendedStudies.slice(0, prevExtendedStudies.length - 1),
       {
@@ -37,7 +80,7 @@ export default class ExtendedStudiesForm extends React.PureComponent {
         props: {
           ...prevExtendedStudies[prevExtendedStudies.length - 1].props,
           children: [
-            <GradesColumn key={UUID()} />,
+            <GradesColumn id={studyId} onValidation={this.updateValidation} key={studyId} />,
             {
             ...prevExtendedStudies[prevExtendedStudies.length - 1].props.children,
               props: {
@@ -51,22 +94,40 @@ export default class ExtendedStudiesForm extends React.PureComponent {
     ];
   }
 
-  buildNextRow(prevExtendedStudies) {
+  buildNextRow(prevExtendedStudies, studyId) {
     return [...prevExtendedStudies,
       (<GradesRow key={UUID()}>
-        <GradesColumn key={UUID()} offset="s7"/>
+        <GradesColumn id={studyId} onValidation={this.updateValidation} key={studyId} offset="s7"/>
       </GradesRow>)
     ];
   }
 
   removeExtendedStudy() {
-    this.setState(({ extendedStudies }) => {
+    const newValidationsObj = this.removeLastStudyId();
+    const isAllValid = this.isAllValid(newValidationsObj);
+    if(this.state.isAllValid != isAllValid) {
+      this.props.onValidation('ExtendedStudiesForm',isAllValid);
+    }
+
+    this.setState(({ extendedStudies}) => {
       return {
+        isAllValid,
         extendedStudies: extendedStudies[extendedStudies.length - 1].props.children instanceof Array ?
           this.removeLastColumn(extendedStudies) :
-          this.removeLastRow(extendedStudies)
+          this.removeLastRow(extendedStudies),
+          validations: newValidationsObj
       };
     });
+
+  }
+
+  removeLastStudyId(validations = this.state.validations) {
+    if (Object.keys(validations).length > 1) {
+      const cloneValidationsObj = JSON.parse(JSON.stringify(validations));
+      delete cloneValidationsObj[Object.keys(cloneValidationsObj)[Object.keys(cloneValidationsObj).length -1]];
+      return cloneValidationsObj;
+    }
+    return validations;
   }
 
   removeLastRow(prevExtendedStudies) {
@@ -83,7 +144,7 @@ export default class ExtendedStudiesForm extends React.PureComponent {
           children: {
             ...prevExtendedStudies[prevExtendedStudies.length - 1].props.children[1],
             props: {
-              ...prevExtendedStudies[prevExtendedStudies.length - 1].props.children[1].propTypes,
+              ...prevExtendedStudies[prevExtendedStudies.length - 1].props.children[1].props,
               offset: 's7'
             }
           }

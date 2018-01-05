@@ -7,41 +7,46 @@ import StudyInput from '../StudyInput';
 
 export default class GradesColumn extends React.PureComponent {
   static propTypes = {
+    id: PropTypes.string.isRequired,
     offset: PropTypes.string,
     name: PropTypes.string,
-    minNumOfUnits: PropTypes.number
+    minNumOfUnits: PropTypes.number,
+    onValidation: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
     this.state = {
-        isAllValid: false,
+      isAllValid: false,
         errorTexts: {},
-        GradeInput: {
-          isValid: false,
-          value: ''
-        },
-        NumOfUnitsSelector: {
-          isValid: true,
-          value: props.minNumOfUnits
-        },
-        StudyInput: {
-          isValid: props.name && true,
-          value: props.name || ''
+        validations: {
+          gradeInput: false,
+          numOfUnitsSelector: props.minNumOfUnits && true,
+          studyInput: props.name && true
         }
     };
   }
 
-  handleUserInput = (inputSrc, inputVal, errorText = '') => {
-    const newErrorTexts = this.buildNewErrorTextsObj(inputSrc, errorText);
+  updateValidation = (inputSrc, isValid, {errorText = ''} = {}) => {
+    const validations =  this.buildNewValidationsObj(inputSrc, isValid),
+          isAllValid = this.isAllValid(validations);
+          
+    if(this.state.isAllValid != isAllValid) {
+      this.props.onValidation(this.props.id, isAllValid);
+    }
+
     this.setState({
-      isAllValid: this.isAllValid(newErrorTexts),
-      errorTexts: newErrorTexts,
-      [inputSrc]: {
-        isValid: errorText.length == 0,
-        value: inputVal
-      }
+      isAllValid,
+      errorTexts: this.buildNewErrorTextsObj(inputSrc, errorText),
+      validations
     });
+  }
+
+  buildNewValidationsObj(inputSrc, isValid) {
+    return {
+      ...this.state.validations,
+      [inputSrc]: isValid
+     };
   }
 
   buildNewErrorTextsObj(inputSrc, errorText) {
@@ -51,12 +56,12 @@ export default class GradesColumn extends React.PureComponent {
     };
   }
 
-  isAllValid(ErrorTexts = this.state.errorTexts) {
-    return Object.values(ErrorTexts).join('').length == 0;
+  isAllValid(validations = this.state.validations) {
+    return Object.values(validations).reduce((acc, curr) => acc && curr, true);
   }
 
   generateErrorTextForDisplay(){
-    return this.state.isAllValid ? '' : Object.values(this.state.errorTexts).join('. ');
+    return this.isAllValid() ? '' : Object.values(this.state.errorTexts).filter((element) => element != '').join('. ');
   }
 
   render() {
@@ -64,13 +69,13 @@ export default class GradesColumn extends React.PureComponent {
     return (
           <div>
             <div className={`input-field col s1 offset-${this.props.offset}`}>
-              <GradeInput onChange={this.handleUserInput} error={!this.state.GradeInput.isValid} value={this.state.GradeInput.value} min={0} max={100}/>
+              <GradeInput name={this.props.id} onValidation={this.updateValidation} min={0} max={100}/>
             </div>
             <div className="input-field col s1">
-              <NumOfUnitsSelector onChange={this.handleUserInput} error={!this.state.NumOfUnitsSelector.isValid} value={this.state.NumOfUnitsSelector.value}/>
+              <NumOfUnitsSelector name={this.props.id} onValidation={this.updateValidation} {...(this.props.minNumOfUnits && {initValue: this.props.minNumOfUnits})}/>
             </div>
             <div className="input-field col s3">
-              <StudyInput onChange={this.handleUserInput} errorText={errorText} value={this.state.StudyInput.value} {...(this.props.name && {disabled: true})}/>
+              <StudyInput name={this.props.id} onValidation={this.updateValidation} errorText={errorText}  {...(this.props.name && {disabled: true, initValue: this.props.name})}/>
             </div>
           </div>
         );

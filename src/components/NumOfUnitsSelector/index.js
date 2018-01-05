@@ -5,41 +5,43 @@ import MenuItem from 'material-ui/MenuItem';
 
 export default class NumOfUnitsSelector extends React.PureComponent {
   static propTypes = {
-    value: PropTypes.number,
-    onChange: PropTypes.func.isRequired,
-    error: PropTypes.bool.isRequired
+    initValue: PropTypes.number,
+    onValidation: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired
   }
 
   constructor(props) {
     super(props);
-    this.initialUnitsValue = props.value;
     this.state = {
-      errorText: ''
+      isValid: props.initValue ? true : false,
+      minNumOfUnits: props.initValue,
+      value: props.initValue || ''
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ errorText: nextProps.error  ? ' ' : '' });
-  }
-
   handleUnitsEntry(value) {
-    this.props.onChange('NumOfUnitsSelector', value, this.validateInput(value));
+    const isValid = this.validateInput(value);
+    if (this.state.isValid != isValid) {
+        this.props.onValidation('numOfUnitsSelector', isValid, {errorText: isValid ? '' : `מינמום ${this.state.minNumOfUnits} יח"ל נדרשות במקצוע`});
+    }
+    this.setState({ value, isValid });
   }
 
   validateInput(value) {
-    if(value < this.initialUnitsValue) {
-    return `מינמום ${this.initialUnitsValue} יח"ל נדרשות במקצוע`;
-    }
+    if(this.state.minNumOfUnits)
+      return value >= this.state.minNumOfUnits;
+    return true;
   }
 
   render() {
     return (
       <SelectField
+         name={`${this.props.name}.numOfUnits`}
          style={{textAlign: "center"}}
          fullWidth
          onChange={(e, index, val) => this.handleUnitsEntry(val)}
-         value={this.props.value}
-         errorText={this.state.errorText}
+         errorText={this.state.value != '' && (this.state.isValid ? '' : ' ')}
+         value={this.state.value}
          required>
         <MenuItem value={1} primaryText="1" />
         <MenuItem value={2} primaryText="2" />

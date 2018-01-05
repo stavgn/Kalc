@@ -22,7 +22,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-// $(document).ready(function() {
-//   $('select').material_select();
-// });
