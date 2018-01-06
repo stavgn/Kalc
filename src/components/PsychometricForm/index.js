@@ -5,21 +5,27 @@ import GradeInput from '../GradeInput';
 
 export default class PsychometricForm extends React.PureComponent {
   static propTypes = {
-
+    onValidation: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
       this.state = {
-        isValid: false,
-        errorText: '',
+        validations: {
+          psychometricForm: false
+        }
       };
   }
 
-  updateValidation = (inputSrc, value, {errorText = ''} = {}) => {
+  updateValidation = (inputSrc, isValid) => {
+    if(this.state.validations.psychometricForm != isValid) {
+      this.props.onValidation('psychometricForm', isValid);
+    }
+
     this.setState({
-      isValid: errorText.length > 0,
-      errorText: errorText
+      validations: {
+        psychometricForm: isValid
+      }
     });
   }
 
@@ -31,7 +37,8 @@ export default class PsychometricForm extends React.PureComponent {
                 <GradeInput
                 min={200} max={800}
                 onValidation={this.updateValidation}
-                errorText={this.state.errorText}
+                name="SAT"
+                shouldDisplayErrorText
                 />
               </div>
               <div style={{direction: 'rtl'}} className="col s4">

@@ -9,6 +9,8 @@ import configureStore, { history } from './store/configureStore';
 
 const store = configureStore();
 
+store.subscribe((state) => console.log(store.getState()));
+
 const AppWrapper = (App) => {
   return (
     <AppContainer>

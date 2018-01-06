@@ -46,7 +46,7 @@ export default class StudyInput extends React.Component {
   render() {
     return (
       <AutoComplete
-                name={`${this.props.name}.studyInput`}
+                name={`${this.props.name}.study`}
                 type="text"
                 inputStyle={{margin : 0}}
                 errorText={this.props.errorText}
@@ -58,6 +58,7 @@ export default class StudyInput extends React.Component {
                 errorStyle={{font: '13px Assistant Light'}}
                 hintText="הקלד מקצוע מוגבר"
                 fullWidth
+                required
               />
             );
   }

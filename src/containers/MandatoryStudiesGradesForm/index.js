@@ -61,7 +61,7 @@ class MandatoryStudiesGradesForm extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    mandatoryStudies: getMandotryStudiesFromState(state.userTypedGrades)
+    mandatoryStudies: getMandotryStudiesFromState(state.userTypedGrades.bagrut)
   };
 };
 

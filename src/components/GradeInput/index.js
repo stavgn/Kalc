@@ -22,7 +22,7 @@ export default class GradeInput extends React.Component {
   handleGradeEntry(value){
     const isValid = this.validateInput(value);
     if (this.state.isValid != isValid) {
-        this.props.onValidation('gradeInput',  isValid, {errorText: isValid ?  '' :  `על הציון להיות בין ${this.props.min} ל-${this.props.max}`});
+        this.props.onValidation('gradeInput',  isValid, {errorText: isValid ?  '' : this.generateErrorText()});
     }
     this.setState({ isValid, value });
   }
@@ -37,14 +37,19 @@ export default class GradeInput extends React.Component {
     }
   }
 
+  generateErrorText() {
+    return `על הציון להיות בין ${this.props.min} ל-${this.props.max}`;
+  }
+
   render() {
+    const ErrorToDisplay = this.state.value != '' && (this.state.isValid ? '' : (this.props.shouldDisplayErrorText ? this.generateErrorText() : ' '));
     return (<TextField
             name={`${this.props.name}.grade`}
             inputStyle={{ textAlign: 'center', margin : 0 }}
             type="number"
             min={this.props.min} max={this.props.max}
             value={this.state.value}
-            errorText={this.state.value != '' && (this.state.isValid ? '' : ' ')}
+            errorText={ErrorToDisplay}
             onChange={(e) => this.handleGradeEntry(e.target.value)}
             onKeyPress={(e) => this.filterKeyPress(e)}
             errorStyle={{font: '13px Assistant Light', textAlign: 'right'}}

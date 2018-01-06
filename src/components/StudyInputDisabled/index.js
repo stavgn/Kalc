@@ -12,12 +12,11 @@ export default class StudyInputDisabled extends React.PureComponent {
 
   render() {
     return (<TextField
-              name={`${this.props.name}.studyInput`}
+              name={`${this.props.name}.study`}
               type="text"
               inputStyle={{margin : 0}}
               errorText={this.props.errorText}
-              style={{ direction: 'rtl', textAlign: 'right', cursor: 'default' }}
-              disabled={true}
+              style={{ direction: 'rtl', textAlign: 'right', cursor: 'default',pointerEvents: 'none', userSelect: 'none'}}
               value={this.props.initValue}
               errorStyle={{font: '13px Assistant Light'}}
               fullWidth

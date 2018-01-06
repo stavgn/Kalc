@@ -2,16 +2,17 @@ import React from 'React';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
+import { submitGradesForm } from '../../actions/userTypedGradesActions';
 import GradeHeadRow from '../../components/GradeHeadRow';
 import MandatoryStudiesGradesForm from '../MandatoryStudiesGradesForm';
 import ExtendedStudiesForm from '../../components/ExtendedStudiesForm';
 import PsychometricForm from '../../components/PsychometricForm';
 import styles from './styles';
 
-
 class GradesForm extends React.PureComponent {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    submitGradesForm: PropTypes.func.isRequired
   }
 
   state = {
@@ -29,8 +30,6 @@ class GradesForm extends React.PureComponent {
         [inputSrc]: value
       }
     }));
-
-    console.log(inputSrc, value);
   }
 
   isAllValid() {
@@ -38,10 +37,22 @@ class GradesForm extends React.PureComponent {
     return MandatoryStudiesGradesForm && ExtendedStudiesForm && PsychometricForm;
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData(e.target);
-    console.log(data);
+    if (this.isAllValid) {
+      const gradesFormData = new FormData(e.target);
+      let gradesFormDataObj = {};
+      gradesFormData.forEach(function(value, key){
+          const [studyId, paramater] = key.split('.');
+          if (!gradesFormDataObj[studyId])
+            gradesFormDataObj[studyId] = {};
+          gradesFormDataObj[studyId][paramater] = value;
+      });
+      this.props.submitGradesForm(gradesFormDataObj);
+    }
+    else {
+      // TODO implement alert to user.
+    }
   }
 
   render() {
@@ -59,16 +70,20 @@ class GradesForm extends React.PureComponent {
             <PsychometricForm onValidation={this.updateValidation} />
           </div>
           <div className="row">
-            <input type="submit" value="SUBMIT" />
+            <RaisedButton type="submit" label="SUBMIT"/>
           </div>
         </form>
       </div>
     );
   }
 }
-//
+
 
 const mapStateToProps = (state) => (state);
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitGradesForm: bindActionCreators(submitGradesForm, dispatch)
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(GradesForm);

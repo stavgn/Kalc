@@ -35,20 +35,22 @@ export default class NumOfUnitsSelector extends React.PureComponent {
 
   render() {
     return (
-      <SelectField
-         name={`${this.props.name}.numOfUnits`}
-         style={{textAlign: "center"}}
-         fullWidth
-         onChange={(e, index, val) => this.handleUnitsEntry(val)}
-         errorText={this.state.value != '' && (this.state.isValid ? '' : ' ')}
-         value={this.state.value}
-         required>
-        <MenuItem value={1} primaryText="1" />
-        <MenuItem value={2} primaryText="2" />
-        <MenuItem value={3} primaryText="3" />
-        <MenuItem value={4} primaryText="4" />
-        <MenuItem value={5} primaryText="5" />
-      </SelectField>
+      <div>
+        <SelectField
+           style={{textAlign: "center"}}
+           fullWidth
+           onChange={(e, index, val) => this.handleUnitsEntry(val)}
+           errorText={this.state.value != '' && (this.state.isValid ? '' : ' ')}
+           value={this.state.value}
+           required>
+          <MenuItem value={1} primaryText="1" />
+          <MenuItem value={2} primaryText="2" />
+          <MenuItem value={3} primaryText="3" />
+          <MenuItem value={4} primaryText="4" />
+          <MenuItem value={5} primaryText="5" />
+        </SelectField>
+        <input required name={`${this.props.name}.numOfUnits`} type="hidden" value={parseInt(this.state.value)} />
+      </div>
     );
   }
 }

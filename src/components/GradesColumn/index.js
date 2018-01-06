@@ -9,8 +9,8 @@ export default class GradesColumn extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
     offset: PropTypes.string,
-    name: PropTypes.string,
-    minNumOfUnits: PropTypes.number,
+    study: PropTypes.string,
+    numOfUnits: PropTypes.number,
     onValidation: PropTypes.func.isRequired
   }
 
@@ -30,7 +30,7 @@ export default class GradesColumn extends React.PureComponent {
   updateValidation = (inputSrc, isValid, {errorText = ''} = {}) => {
     const validations =  this.buildNewValidationsObj(inputSrc, isValid),
           isAllValid = this.isAllValid(validations);
-          
+
     if(this.state.isAllValid != isAllValid) {
       this.props.onValidation(this.props.id, isAllValid);
     }
@@ -72,10 +72,10 @@ export default class GradesColumn extends React.PureComponent {
               <GradeInput name={this.props.id} onValidation={this.updateValidation} min={0} max={100}/>
             </div>
             <div className="input-field col s1">
-              <NumOfUnitsSelector name={this.props.id} onValidation={this.updateValidation} {...(this.props.minNumOfUnits && {initValue: this.props.minNumOfUnits})}/>
+              <NumOfUnitsSelector name={this.props.id} onValidation={this.updateValidation} {...(this.props.numOfUnits && {initValue: this.props.numOfUnits})}/>
             </div>
             <div className="input-field col s3">
-              <StudyInput name={this.props.id} onValidation={this.updateValidation} errorText={errorText}  {...(this.props.name && {disabled: true, initValue: this.props.name})}/>
+              <StudyInput name={this.props.id} onValidation={this.updateValidation} errorText={errorText}  {...(this.props.study && {disabled: true, initValue: this.props.study})}/>
             </div>
           </div>
         );
