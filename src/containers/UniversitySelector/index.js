@@ -2,6 +2,7 @@ import React from 'React';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Grid from 'material-ui/Grid';
 import { selectUniversity } from '../../actions/universitiesActions';
 import UniversityLabel from '../../components/UniversityLabel/';
 import styles from './styles';
@@ -25,14 +26,15 @@ class UniversitySelector extends React.PureComponent {
 
   render() {
     return (
-      <div style={styles} className="row center-align">
-      {
-        this.props.universities.map((curr) => {
-          return <UniversityLabel key={curr.id} handleUniversitySelection={(id) => this.handleUniversitySelection(id)} {...curr} />;
-        })
-      }
-    </div>
-  );
+      <Grid item xs={12}>
+        <Grid spacing={0} justify="center" container>
+            {this.props.universities.map((curr) => {
+              return <UniversityLabel key={curr.id} handleUniversitySelection={(id) => this.handleUniversitySelection(id)} {...curr} />;
+            })}
+        </Grid>
+      </Grid>);
+
+
   }
 }
 

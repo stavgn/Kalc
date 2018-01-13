@@ -1,18 +1,20 @@
  const styles = {
-   labelWrapper: {
-     height: '200px',
-     cursor: 'pointer',
+   paper: {
+     height: '100%'
    },
-   spanHelper: {
+   labelWrapper: {
+     cursor: 'pointer',
+     textAlign: 'center',
+     height: '100%'
+   },
+   helper: {
      display: 'inline-block',
-      height: '100%',
-      verticalAlign: 'middle'
+     verticalAlign: 'middle',
+     height: '100%'
    },
   img: {
-    minHeight: 'auto',
-    maxHeight: '100%',
-    maxWidth: '100%',
-    height: 'auto',
+    maxHeight: '200px',
+    maxWidth: '-webkit-fill-available',
     userSelect: 'none',
     pointerEvents: 'none',
     padding: '10px',

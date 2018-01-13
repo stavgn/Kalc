@@ -14,12 +14,13 @@ export default class StudyInputDisabled extends React.PureComponent {
     return (<TextField
               name={`${this.props.name}.study`}
               type="text"
-              inputStyle={{margin : 0}}
-              errorText={this.props.errorText}
-              style={{ direction: 'rtl', textAlign: 'right', cursor: 'default',pointerEvents: 'none', userSelect: 'none'}}
+              error={!!this.props.errorText}
+              helperText={this.props.errorText}
+              style={{ direction: 'rtl', textAlign: 'right', cursor: 'default',pointerEvents: 'none', userSelect: 'none', }}
               value={this.props.initValue}
-              errorStyle={{font: '13px Assistant Light'}}
               fullWidth
+              inputProps={{classes: {root: {fontFamily: 'Assistant Light' }}}}
+              FormHelperTextProps={{error: true, style: {font: '13px Assistant Light', textAlign: 'right', width: '500px'}}}
             />
           );
   }

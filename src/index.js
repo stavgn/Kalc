@@ -14,13 +14,11 @@ store.subscribe((state) => console.log(store.getState()));
 const AppWrapper = (App) => {
   return (
     <AppContainer>
-      <MuiThemeProvider>
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <App />
           </ConnectedRouter>
         </Provider>
-      </MuiThemeProvider>
     </AppContainer>
   );
 };

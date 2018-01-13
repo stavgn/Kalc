@@ -1,7 +1,6 @@
 const styles = {
-   card: {
-    marginTop: '30px',
-    padding: '15px'
+   paper: {
+    marginTop: '30px'  
   }
 
 };

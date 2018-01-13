@@ -1,14 +1,14 @@
 import React from 'React';
 import PropTypes from 'prop-types';
-import GradeInput from '../GradeInput';
+import Grid from 'material-ui/Grid';
 import NumOfUnitsSelector from '../NumOfUnitsSelector';
+import GradeInput from '../GradeInput';
 import StudyInput from '../StudyInput';
 
 
 export default class GradesColumn extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    offset: PropTypes.string,
     study: PropTypes.string,
     numOfUnits: PropTypes.number,
     onValidation: PropTypes.func.isRequired
@@ -21,8 +21,8 @@ export default class GradesColumn extends React.PureComponent {
         errorTexts: {},
         validations: {
           gradeInput: false,
-          numOfUnitsSelector: props.minNumOfUnits && true,
-          studyInput: props.name && true
+          numOfUnitsSelector: props.numOfUnits && true,
+          studyInput: props.study && true
         }
     };
   }
@@ -61,23 +61,25 @@ export default class GradesColumn extends React.PureComponent {
   }
 
   generateErrorTextForDisplay(){
-    return this.isAllValid() ? '' : Object.values(this.state.errorTexts).filter((element) => element != '').join('. ');
+    return this.state.isAllValid ? '' : Object.values(this.state.errorTexts).filter((element) => element != '').join('. ');
   }
 
   render() {
     const errorText = this.generateErrorTextForDisplay();
     return (
-          <div>
-            <div className={`input-field col s1 offset-${this.props.offset}`}>
-              <GradeInput name={this.props.id} onValidation={this.updateValidation} min={0} max={100}/>
-            </div>
-            <div className="input-field col s1">
-              <NumOfUnitsSelector name={this.props.id} onValidation={this.updateValidation} {...(this.props.numOfUnits && {initValue: this.props.numOfUnits})}/>
-            </div>
-            <div className="input-field col s3">
-              <StudyInput name={this.props.id} onValidation={this.updateValidation} errorText={errorText}  {...(this.props.study && {disabled: true, initValue: this.props.study})}/>
-            </div>
-          </div>
+          <Grid style={{marginBottom: errorText ? '5px': '30px'}} item xs={12} md={6}>
+            <Grid container justify="center">
+              <Grid item xs={3} sm={2}>
+                <GradeInput name={this.props.id} onValidation={this.updateValidation} min={0} max={100}/>
+              </Grid>
+              <Grid item xs={3} sm={2}>
+                <NumOfUnitsSelector name={this.props.id} onValidation={this.updateValidation} {...(this.props.numOfUnits && {initValue: this.props.numOfUnits})}/>
+              </Grid>
+              <Grid item xs={5} sm={4}>
+                <StudyInput name={this.props.id} onValidation={this.updateValidation} errorText={errorText}  {...(this.props.study && {disabled: true, initValue: this.props.study})}/>
+              </Grid>
+            </Grid>
+          </Grid>
         );
   }
 }

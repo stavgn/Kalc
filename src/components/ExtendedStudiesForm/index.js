@@ -1,6 +1,7 @@
 import React from 'React';
 import PropTypes from 'prop-types';
 import UUID from 'uuid/v4';
+import Offset from '../Offset';
 import GradesRow from '../GradesRow';
 import GradesColumn from '../GradesColumn';
 import AddExtendedStudyButton from '../AddExtendedStudyButton';
@@ -21,7 +22,8 @@ export default class ExtendedStudiesForm extends React.PureComponent {
       },
       extendedStudies: [
         <GradesRow key={UUID()}>
-          <GradesColumn id={studyId} onValidation={this.updateValidation} key={studyId} offset="s7"/>
+          <Offset smDown/>
+          <GradesColumn id={studyId} onValidation={this.updateValidation} key={studyId}/>
         </GradesRow>
       ],
     };
@@ -60,9 +62,9 @@ export default class ExtendedStudiesForm extends React.PureComponent {
     this.setState(({ extendedStudies,  validations}) => {
         return {
           isAllValid: false,
-          extendedStudies: extendedStudies[extendedStudies.length - 1].props.children instanceof Array ?
-            this.buildNextRow(extendedStudies, studyId) :
-            this.addCoumnToExistingRow(extendedStudies, studyId),
+          extendedStudies: extendedStudies[extendedStudies.length - 1].props.children[0].type == Offset ?
+            this.addCoumnToExistingRow(extendedStudies, studyId) :
+            this.buildNextRow(extendedStudies, studyId),
           validations: {
             ...validations,
             [studyId]: false
@@ -82,11 +84,8 @@ export default class ExtendedStudiesForm extends React.PureComponent {
           children: [
             <GradesColumn id={studyId} onValidation={this.updateValidation} key={studyId} />,
             {
-            ...prevExtendedStudies[prevExtendedStudies.length - 1].props.children,
-              props: {
-                ...prevExtendedStudies[prevExtendedStudies.length - 1].props.children.props,
-                offset: 's2'
-              }
+            ...prevExtendedStudies[prevExtendedStudies.length - 1].props.children[1],
+
             }
           ]
         }
@@ -97,6 +96,7 @@ export default class ExtendedStudiesForm extends React.PureComponent {
   buildNextRow(prevExtendedStudies, studyId) {
     return [...prevExtendedStudies,
       (<GradesRow key={UUID()}>
+        <Offset smDown/>
         <GradesColumn id={studyId} onValidation={this.updateValidation} key={studyId} offset="s7"/>
       </GradesRow>)
     ];
@@ -112,7 +112,7 @@ export default class ExtendedStudiesForm extends React.PureComponent {
     this.setState(({ extendedStudies}) => {
       return {
         isAllValid,
-        extendedStudies: extendedStudies[extendedStudies.length - 1].props.children instanceof Array ?
+        extendedStudies: extendedStudies[extendedStudies.length - 1].props.children[0].type != Offset ?
           this.removeLastColumn(extendedStudies) :
           this.removeLastRow(extendedStudies),
           validations: newValidationsObj
@@ -141,13 +141,10 @@ export default class ExtendedStudiesForm extends React.PureComponent {
         ...prevExtendedStudies[prevExtendedStudies.length - 1],
         props: {
           ...prevExtendedStudies[prevExtendedStudies.length - 1].props,
-          children: {
-            ...prevExtendedStudies[prevExtendedStudies.length - 1].props.children[1],
-            props: {
-              ...prevExtendedStudies[prevExtendedStudies.length - 1].props.children[1].props,
-              offset: 's7'
-            }
-          }
+          children: [
+            <Offset key smDown/>,
+            prevExtendedStudies[prevExtendedStudies.length - 1].props.children[1]
+          ]
         }
       }
     ];

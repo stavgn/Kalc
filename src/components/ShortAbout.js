@@ -1,13 +1,12 @@
 import React from 'react';
+import Grid from 'material-ui/Grid';
 
 export default class ShortAbout extends React.PureComponent {
   render() {
     return (
-      <div className="row center-align">
-        <div className="col s12">
+      <Grid item xs={12}>
           CALL TO ACTION
-        </div>
-      </div>
+      </Grid>
     );
   }
 }

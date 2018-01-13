@@ -2,6 +2,7 @@ import React from 'React';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Offset from '../../components/Offset';
 import GradesRow from '../../components/GradesRow';
 import GradesColumn from '../../components/GradesColumn';
 import { getMandotryStudiesFromState } from '../../reducers/userTypedGradesReducer';
@@ -49,8 +50,9 @@ class MandatoryStudiesGradesForm extends React.Component {
     return  Object.keys(mandatoryStudies).map((curr, index, arr) => {
       const row = (
         <GradesRow key={curr}>
-          <GradesColumn id={curr} onValidation={this.updateValidation} {...mandatoryStudies[curr]}  {...(!arr[index + 1] && {offset: 's7'})}/>
-          {arr[index + 1] && <GradesColumn id={arr[index + 1]} onValidation={this.updateValidation} {...mandatoryStudies[arr[index + 1]]} offset="s2"/>}
+          {!arr[index + 1] && <Offset smDown/>}
+          <GradesColumn id={curr} onValidation={this.updateValidation} {...mandatoryStudies[curr]} />
+          {arr[index + 1] && <GradesColumn id={arr[index + 1]} onValidation={this.updateValidation} {...mandatoryStudies[arr[index + 1]]}/>}
         </GradesRow>
       );
       delete arr[index + 1];

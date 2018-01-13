@@ -1,4 +1,5 @@
 import React from 'React';
+import Icon from 'material-ui/Icon';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
@@ -8,8 +9,8 @@ export default class AddExtendedStudyButton extends React.Component {
   }
   render() {
     return (
-          <a onClick={this.props.onClick} style={styles.icon} className="btn-floating btn-meduim waves-effect waves-light cyan">
-            <i style={styles.remove} className="material-icons dp48">remove</i>
+          <a onClick={this.props.onClick} style={styles.icon}>
+            <Icon color="error" style={{ fontSize: 46 }}>remove_circle</Icon>
           </a>
 
     );

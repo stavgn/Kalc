@@ -2,7 +2,7 @@ const styles = {
    icon: {
     width: '46px',
     height: '46px',
-    position: 'absolute',
+    position: 'relative',
     bottom: '-23px',
     right: '-23px'
   },

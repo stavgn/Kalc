@@ -1,65 +1,146 @@
-import React from 'React';
+import React from 'react';
 import PropTypes from 'prop-types';
-import AutoComplete from 'material-ui/AutoComplete';
-import ExtendedStudies from '../../static/data/ExtendedStudies';
+import Autosuggest from 'react-autosuggest';
+import { withStyles } from 'material-ui/styles';
+import InputField from './InputField';
+import Suggestion from './Suggestion';
+import SuggestionContainer from './SuggestionContainer'
+import suggestions from '../../static/data/ExtendedStudies';
 
-export default class StudyInput extends React.Component {
+const styles = theme => ({
+  container: {
+    flexGrow: 1,
+    position: 'relative',
+    height: 'auto',
+  },
+  suggestionsContainerOpen: {
+    position: 'absolute',
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit * 3,
+    left: 0,
+    right: 0,
+  },
+  suggestion: {
+    display: 'block',
+  },
+  suggestionsList: {
+    margin: 0,
+    padding: 0,
+    listStyleType: 'none',
+  },
+  textField: {
+    width: '100%',
+  },
+});
+
+class StudyInputSelector extends React.Component {
   static propTypes = {
     onValidation: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     errorText: PropTypes.string.isRequired
-  }
 
+  }
   state = {
     isValid: false,
-    value: ''
-  }
+    value: '',
+    suggestions: [],
+  };
 
-  handleStudyEntry(value, autoComplete){
-    if (typeof autoComplete == 'object' ) {
-      if(this.checkForEnglishChar(value)) {
-        this.props.onValidation('studyInput', false, {errorText:   'שנה שפה לעברית'});
-      }
-      else {
-        const isValid = this.validateInput(value, autoComplete);
-        if(this.state.isValid != isValid) {
-          this.props.onValidation('studyInput',(value != '' && isValid));
-        }
-        if(isValid) {
-          this.setState({
-          isValid,
-          value
-        });
-      }
+  handleSuggestionsFetchRequested = ({ value }) => {
+    const suggestions = getSuggestions(value), isValid = suggestions.length > 0;
+
+    if(this.state.isValid != isValid){
+      this.props.onValidation('studyInput', isValid);
     }
+
+    this.setState({
+      isValid,
+      suggestions
+    });
+  };
+
+  handleSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: [],
+    });
+  };
+
+  handleChange = (event, { newValue }) => {
+    const isValid = newValue == '' || this.checkForNoEnglishChar(newValue) && getSuggestions(newValue).length > 0;
+
+    if(!this.checkForNoEnglishChar(newValue)) {
+      this.props.onValidation('studyInput', isValid, isValid ? undefined : {errorText: 'שנה שפה לעברית'});
     }
-  }
+    else {
+        this.props.onValidation('studyInput', isValid);
+    }
 
-  validateInput(value, autoComplete) {
-    return autoComplete.find((element) => element.match(new RegExp(value, 'g'))) != undefined;
-  }
+      this.setState({
+        isValid,
+        value: isValid ? newValue : this.state.value
+      });
 
-  checkForEnglishChar(value) {
-    return value.match(/^[A-z]+$/g);
+  };
+
+  checkForNoEnglishChar(value) {
+    return !value.match(/[a-zA-Z]/g);
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
-      <AutoComplete
-                name={`${this.props.name}.study`}
-                type="text"
-                inputStyle={{margin : 0}}
-                errorText={this.props.errorText}
-                style={{ direction: 'rtl', textAlign: 'right', cursor: 'default' }}
-                onNewRequest={(value, autoComplete) => this.handleStudyEntry(value, autoComplete)}
-                onUpdateInput={(value, autoComplete) => this.handleStudyEntry(value, autoComplete)}
-                searchText={this.state.value}
-                dataSource={ExtendedStudies}
-                errorStyle={{font: '13px Assistant Light'}}
-                hintText="הקלד מקצוע מוגבר"
-                fullWidth
-                required
-              />
-            );
+      <Autosuggest
+        theme={{
+          container: classes.container,
+          suggestionsContainerOpen: classes.suggestionsContainerOpen,
+          suggestionsList: classes.suggestionsList,
+          suggestion: classes.suggestion,
+        }}
+        renderInputComponent={InputField}
+        suggestions={this.state.suggestions}
+        onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
+        onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
+        renderSuggestionsContainer={SuggestionContainer}
+        getSuggestionValue={getSuggestionValue}
+        renderSuggestion={Suggestion}
+        inputProps={{
+          autoFocus: true,
+          classes,
+          placeholder: 'חפש מקצוע מוגבר',
+          value: this.state.value,
+          onChange: this.handleChange,
+          name: `${this.props.name}.study`,
+          errorText: this.props.errorText
+        }}
+      />
+    );
   }
 }
+
+
+function getSuggestionValue(suggestion) {
+  return suggestion;
+}
+
+function getSuggestions(value) {
+  const inputValue = value.trim();
+  const inputLength = inputValue.length;
+  let count = 0;
+
+  return inputLength === 0
+    ? []
+    : suggestions.filter(suggestion => {
+        const keep =
+          count < 5 && suggestion.slice(0, inputLength) === inputValue;
+
+        if (keep) {
+          count += 1;
+        }
+
+        return keep;
+      });
+}
+
+export default withStyles(styles)(StudyInputSelector);

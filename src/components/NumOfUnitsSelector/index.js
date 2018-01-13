@@ -1,7 +1,7 @@
 import React from 'React';
 import PropTypes from 'prop-types';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+import Select from 'material-ui/Select';
+import { MenuItem } from 'material-ui/Menu';
 
 export default class NumOfUnitsSelector extends React.PureComponent {
   static propTypes = {
@@ -24,7 +24,8 @@ export default class NumOfUnitsSelector extends React.PureComponent {
     if (this.state.isValid != isValid) {
         this.props.onValidation('numOfUnitsSelector', isValid, {errorText: isValid ? '' : `מינמום ${this.state.minNumOfUnits} יח"ל נדרשות במקצוע`});
     }
-    this.setState({ value, isValid });
+    const intValue = parseInt(value);
+    this.setState({ value: intValue, isValid });
   }
 
   validateInput(value) {
@@ -36,20 +37,20 @@ export default class NumOfUnitsSelector extends React.PureComponent {
   render() {
     return (
       <div>
-        <SelectField
-           style={{textAlign: "center"}}
+        <Select
+           style={{textAlign: "center",}}
            fullWidth
-           onChange={(e, index, val) => this.handleUnitsEntry(val)}
-           errorText={this.state.value != '' && (this.state.isValid ? '' : ' ')}
+           onChange={(e) => this.handleUnitsEntry(e.target.value)}
+           error={this.state.value != '' && !this.state.isValid}
            value={this.state.value}
            required>
-          <MenuItem value={1} primaryText="1" />
-          <MenuItem value={2} primaryText="2" />
-          <MenuItem value={3} primaryText="3" />
-          <MenuItem value={4} primaryText="4" />
-          <MenuItem value={5} primaryText="5" />
-        </SelectField>
-        <input required name={`${this.props.name}.numOfUnits`} type="hidden" value={parseInt(this.state.value)} />
+          <MenuItem value={1}>1</MenuItem>
+          <MenuItem value={2}>2</MenuItem>
+          <MenuItem value={3}>3</MenuItem>
+          <MenuItem value={4}>4</MenuItem>
+          <MenuItem value={5}>5</MenuItem>
+        </Select>
+        <input required name={`${this.props.name}.numOfUnits`} type="hidden" value={this.state.value} />
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React from 'React';
 import PropTypes from 'prop-types';
+import Grid from 'material-ui/Grid';
 import styles from './styles';
 import GradeInput from '../GradeInput';
 
@@ -31,21 +32,19 @@ export default class PsychometricForm extends React.PureComponent {
 
   render() {
     return (
-          <div className="container">
-            <div className="row">
-              <div className="col s4 offset-s2">
+          <Grid direction="row-reverse" container justify="center" alignItems="center">
+          <Grid item>
+            <p style={styles.p}>ציון פסיכומטרי (רב תחומי):</p>
+        </Grid>
+            <Grid item style={{width: '150px'}}>
                 <GradeInput
                 min={200} max={800}
                 onValidation={this.updateValidation}
                 name="SAT"
                 shouldDisplayErrorText
                 />
-              </div>
-              <div style={{direction: 'rtl'}} className="col s4">
-                <p style={styles.p}>ציון פסיכומטרי (רב תחומי):</p>
-              </div>
-            </div>
-          </div>
+              </Grid>
+          </Grid>
 
         );
   }

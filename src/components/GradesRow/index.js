@@ -1,5 +1,7 @@
 import React from 'React';
 import PropTypes from 'prop-types';
+import Grid from 'material-ui/Grid';
+import Hidden from 'material-ui/Hidden';
 import styles from './styles';
 
 export default class GradesRow extends React.PureComponent {
@@ -12,9 +14,9 @@ export default class GradesRow extends React.PureComponent {
 
   render() {
     return (
-          <div style={styles.row} className="row">
+          <Grid style={styles.row} justify="center" container>
             {this.props.children}
-          </div>
+          </Grid>
         );
   }
 }

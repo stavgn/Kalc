@@ -42,17 +42,17 @@ export default class GradeInput extends React.Component {
   }
 
   render() {
-    const ErrorToDisplay = this.state.value != '' && (this.state.isValid ? '' : (this.props.shouldDisplayErrorText ? this.generateErrorText() : ' '));
+    const isError = this.state.value != '' && !this.state.isValid;
     return (<TextField
             name={`${this.props.name}.grade`}
-            inputStyle={{ textAlign: 'center', margin : 0 }}
             type="number"
-            min={this.props.min} max={this.props.max}
+            inputProps={{max:this.props.max, min: this.props.min , style: { textAlign: 'center', margin : 0 }}}
             value={this.state.value}
-            errorText={ErrorToDisplay}
+            helperText={isError && this.props.shouldDisplayErrorText && this.generateErrorText()}
+            error={isError}
+            FormHelperTextProps={{error: true, style: {font: '13px Assistant Light', textAlign: 'right'}}}
             onChange={(e) => this.handleGradeEntry(e.target.value)}
-            onKeyPress={(e) => this.filterKeyPress(e)}
-            errorStyle={{font: '13px Assistant Light', textAlign: 'right'}}
+            onKeyPress={(e) => this.filterKeyPress(e)}            
             fullWidth
             required
             />);

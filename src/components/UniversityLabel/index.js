@@ -1,10 +1,14 @@
 import React from 'React';
 import PropTypes from 'prop-types';
+import Grid from 'material-ui/Grid';
+import Paper from 'material-ui/Paper';
 import styles from './styles';
 
 export default class UniversityLabel extends React.PureComponent {
   static propTypes = {
-    logoURL: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    logoURL: PropTypes.string.isRequired,
+    handleUniversitySelection: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -24,12 +28,14 @@ export default class UniversityLabel extends React.PureComponent {
   }
   render() {
     return (
-        <div className="col s3 ">
-          <div onClick={()=> this.selectUniversity()} style={styles.labelWrapper} className={this.state.isSelected ? "card blue-grey lighten-5" : "card"}>
-            <span style={styles.spanHelper} />
-            <img style={styles.img} className="" src={this.props.logoURL} />
-          </div>
-        </div>
+        <Grid item xs={6} md={3} lg={2}>
+          <Paper style={styles.paper}>
+            <div onClick={()=> this.selectUniversity()} style={this.state.isSelected ? {...styles.labelWrapper, backgroundColor: '#f5f5f5'} : styles.labelWrapper}>
+            <span style={styles.helper}/>
+              <img style={styles.img} src={this.props.logoURL} />
+            </div>
+          </Paper>
+        </Grid>
       );
   }
 }

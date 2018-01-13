@@ -1,6 +1,6 @@
 const styles = {
   row: {
-    marginBottom: '0px'
+    padding: '0 5px 0 5px'
   }
 };
 

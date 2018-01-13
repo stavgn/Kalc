@@ -2,7 +2,9 @@ import React from 'React';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
+import Grid from 'material-ui/Grid';
+import Paper from 'material-ui/Paper';
+import Button from 'material-ui/Button';
 import { submitGradesForm } from '../../actions/userTypedGradesActions';
 import GradeHeadRow from '../../components/GradeHeadRow';
 import MandatoryStudiesGradesForm from '../MandatoryStudiesGradesForm';
@@ -46,7 +48,10 @@ class GradesForm extends React.PureComponent {
           const [studyId, paramater] = key.split('.');
           if (!gradesFormDataObj[studyId])
             gradesFormDataObj[studyId] = {};
-          gradesFormDataObj[studyId][paramater] = value;
+          if(paramater != 'study')
+            gradesFormDataObj[studyId][paramater] = Number(value);
+          else
+            gradesFormDataObj[studyId][paramater] = value;
       });
       this.props.submitGradesForm(gradesFormDataObj);
     }
@@ -57,27 +62,51 @@ class GradesForm extends React.PureComponent {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <div style={{padding: '15px'}} className="card">
-            <GradeHeadRow />
-            <MandatoryStudiesGradesForm onValidation={this.updateValidation} />
-          </div>
-          <div style={styles.card} className="card">
-            <ExtendedStudiesForm onValidation={this.updateValidation} />
-          </div>
-          <div style={styles.card} className="card">
-            <PsychometricForm onValidation={this.updateValidation} />
-          </div>
-          <div className="row">
-            <RaisedButton type="submit" label="SUBMIT"/>
-          </div>
+        <form style={{width: 'inherit', height: 'inherit', padding: '0 8px 0 8px'}} onSubmit={this.handleSubmit}>
+          <Grid item>
+            <Grid container justify="center">
+              <Grid item lg={8} md={12} xs={12}>
+                <Paper style={styles.paper}>
+                  <GradeHeadRow />
+                  <MandatoryStudiesGradesForm onValidation={this.updateValidation} />
+                </Paper>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Grid container justify="center">
+              <Grid item lg={8} md={12} xs={12}>
+                <Paper style={styles.paper}>
+                  <ExtendedStudiesForm onValidation={this.updateValidation} />
+                </Paper>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Grid container justify="center" alignItems="center">
+              <Grid item lg={8} md={12} xs={12}>
+                <Paper style={styles.paper}>
+                  <PsychometricForm onValidation={this.updateValidation} />
+                </Paper>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Grid container justify="center">
+              <Grid item lg={8} md={12} xs={12}>
+                  <Button raised type="submit">SUBMIT</Button>
+              </Grid>
+            </Grid>
+          </Grid>
         </form>
-      </div>
+
     );
   }
 }
 
+/**
+
+ */
 
 const mapStateToProps = (state) => (state);
 const mapDispatchToProps = (dispatch) => {
