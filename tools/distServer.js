@@ -1,27 +1,16 @@
-// This file configures a web server for testing the production build
-// on your local machine.
+var express = require("express");
+var path = require("path");
+var app = express();
 
-import browserSync from 'browser-sync';
-import historyApiFallback from 'connect-history-api-fallback';
-import {chalkProcessing} from './chalkConfig';
+var port = process.env.PORT || 3000;
 
-/* eslint-disable no-console */
+app.get("/", function(req,res) {
+	res.sendFile(path.join(__dirname,"..","dist/index.html"),{}, function(err){
+		if (err)
+			console.log(err);
+	});
+});
 
-console.log(chalkProcessing('Opening production build...'));
-
-// Run Browsersync
-browserSync({
-  port: 4000,
-  ui: {
-    port: 4001
-  },
-  server: {
-    baseDir: 'dist'
-  },
-
-  files: [
-    'src/*.html'
-  ],
-
-  middleware: [historyApiFallback()]
+app.listen(port, function(err){
+	console.log("Server is Running on Port " + port);
 });
