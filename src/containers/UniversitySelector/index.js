@@ -5,6 +5,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { selectUniversity } from '../../actions/universitiesActions';
 import UniversityLabel from '../../components/UniversityLabel/';
+import Technion  from '../../static/images/TechnionLogo.png';
+import BGU  from '../../static/images/BGULogo.png';
+import Hebrew  from '../../static/images/HEBLogo.png';
+import TLV  from '../../static/images/TLVLogo.png';
 
 export class UniversitySelector extends React.PureComponent {
   static propTypes = {
@@ -13,10 +17,10 @@ export class UniversitySelector extends React.PureComponent {
   }
 
   static UniversitiesLogoList = {
-      'Technion':  '../../static/images/TechnionLogo.png',
-      'BGU University': '../../static/images/BGULogo.png',
-      'The Hebrew University': '../../static/images/HEBLogo.png',
-      'Tel-Aviv University': '../../static/images/TLVLogo.png'
+      'Technion':  Technion,
+      'BGU University': BGU,
+      'The Hebrew University': Hebrew,
+      'Tel-Aviv University': TLV
     }
 
   handleUniversitySelection = (id) => {
@@ -43,7 +47,7 @@ const mapStateToProps = (state) => {
     universities: Object.keys(state.universities).map(curr => {
       return {
         id: curr,
-        logoURL: UniversitySelector.UniversitiesLogoList[state.universities[curr].name]
+        logo: UniversitySelector.UniversitiesLogoList[state.universities[curr].name]
       };
     })
   };

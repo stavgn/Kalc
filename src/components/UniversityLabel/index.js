@@ -7,12 +7,12 @@ import './styles.scss';
 export default class UniversityLabel extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    logoURL: PropTypes.string.isRequired,
+    logo: PropTypes.string.isRequired,
     handleUniversitySelection: PropTypes.func.isRequired
   }
 
   state = {
-    isSelected: false
+    isSelected: false,
   }
 
   selectUniversity = () => {
@@ -24,12 +24,13 @@ export default class UniversityLabel extends React.PureComponent {
     });
   }
   render() {
+    console.log(this.state.img);
     return (
         <Grid item xs={6} md={3} lg={2}>
           <Paper className="labelPaper">
             <div onClick={this.selectUniversity} className={this.state.isSelected ? 'labelWrapperClicked': 'labelWrapper'}>
               <span className="helper" />
-              <img className="img" src={this.props.logoURL} />
+              <img className="img" src={this.props.logo} />
             </div>
           </Paper>
         </Grid>
