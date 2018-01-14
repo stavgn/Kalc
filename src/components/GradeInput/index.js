@@ -2,7 +2,7 @@ import React from 'React';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 
-export default class GradeInput extends React.Component {
+export default class GradeInput extends React.PureComponent {
   static propTypes = {
     onValidation: PropTypes.func.isRequired,
     min: PropTypes.number.isRequired,
@@ -52,7 +52,7 @@ export default class GradeInput extends React.Component {
             error={isError}
             FormHelperTextProps={{error: true, style: {font: '13px Assistant Light', textAlign: 'right'}}}
             onChange={(e) => this.handleGradeEntry(e.target.value)}
-            onKeyPress={(e) => this.filterKeyPress(e)}            
+            onKeyPress={(e) => this.filterKeyPress(e)}
             fullWidth
             required
             />);

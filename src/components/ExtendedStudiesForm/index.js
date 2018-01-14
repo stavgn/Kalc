@@ -43,7 +43,7 @@ export default class ExtendedStudiesForm extends React.PureComponent {
     });
   }
 
-  buildNewValidationsObj(studyId,isValid) {
+  buildNewValidationsObj(studyId, isValid) {
     return {
       ...this.state.validations,
       [studyId]: isValid
@@ -54,7 +54,7 @@ export default class ExtendedStudiesForm extends React.PureComponent {
     return Object.values(validations).reduce((acc, curr) => acc && curr, true);
   }
 
-  addExtendedStudy() {
+  addExtendedStudy = () => {
     if(this.state.isAllValid != false) {
       this.props.onValidation('ExtendedStudiesForm', false);
     }
@@ -102,7 +102,7 @@ export default class ExtendedStudiesForm extends React.PureComponent {
     ];
   }
 
-  removeExtendedStudy() {
+  removeExtendedStudy = () => {
     const newValidationsObj = this.removeLastStudyId();
     const isAllValid = this.isAllValid(newValidationsObj);
     if(this.state.isAllValid != isAllValid) {
@@ -153,9 +153,9 @@ export default class ExtendedStudiesForm extends React.PureComponent {
 render() {
   return (
     <div>
-      <AddExtendedStudyButton onClick={() => this.addExtendedStudy()} />
+      <AddExtendedStudyButton onClick={this.addExtendedStudy} />
       {this.state.extendedStudies}
-      <RemoveExtendedStudyButton onClick={() => this.removeExtendedStudy()}/>
+      <RemoveExtendedStudyButton onClick={this.removeExtendedStudy}/>
     </div>
     );
   }

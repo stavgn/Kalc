@@ -15,7 +15,7 @@ class MandatoryStudiesGradesForm extends React.Component {
 
   state = {
     isAllValid: false,
-    validations: Object.keys(this.props.mandatoryStudies).reduce((acc,StudyId) => {
+    validations: Object.keys(this.props.mandatoryStudies).reduce((acc, StudyId) => {
       acc[StudyId] = false;
       return acc;
     }, {})

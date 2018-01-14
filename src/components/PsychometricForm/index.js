@@ -1,21 +1,18 @@
 import React from 'React';
 import PropTypes from 'prop-types';
 import Grid from 'material-ui/Grid';
-import styles from './styles';
 import GradeInput from '../GradeInput';
+import './styles.scss';
 
 export default class PsychometricForm extends React.PureComponent {
   static propTypes = {
     onValidation: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props);
-      this.state = {
-        validations: {
-          psychometricForm: false
-        }
-      };
+  state = {
+    validations: {
+      psychometricForm: false
+    }
   }
 
   updateValidation = (inputSrc, isValid) => {
@@ -34,9 +31,9 @@ export default class PsychometricForm extends React.PureComponent {
     return (
           <Grid direction="row-reverse" container justify="center" alignItems="center">
           <Grid item>
-            <p style={styles.p}>ציון פסיכומטרי (רב תחומי):</p>
+            <p className="PyscometricP">ציון פסיכומטרי (רב תחומי):</p>
         </Grid>
-            <Grid item style={{width: '150px'}}>
+            <Grid item className="PyscometricGrid">
                 <GradeInput
                 min={200} max={800}
                 onValidation={this.updateValidation}

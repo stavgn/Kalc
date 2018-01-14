@@ -16,16 +16,17 @@ export default class GradesColumn extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
-      isAllValid: false,
-        errorTexts: {},
-        validations: {
-          gradeInput: false,
-          numOfUnitsSelector: props.numOfUnits && true,
-          studyInput: props.study && true
-        }
-    };
   }
+
+  state = {
+    isAllValid: false,
+      errorTexts: {},
+      validations: {
+        gradeInput: false,
+        numOfUnitsSelector: this.props.numOfUnits && true,
+        studyInput: this.props.study && true
+      }
+  };
 
   updateValidation = (inputSrc, isValid, {errorText = ''} = {}) => {
     const validations =  this.buildNewValidationsObj(inputSrc, isValid),

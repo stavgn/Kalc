@@ -12,20 +12,22 @@ export default class NumOfUnitsSelector extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
-      isValid: props.initValue ? true : false,
-      minNumOfUnits: props.initValue,
-      value: props.initValue || ''
-    };
   }
 
-  handleUnitsEntry(value) {
+  state = {
+    isValid: this.props.initValue ? true : false,
+    minNumOfUnits: this.props.initValue,
+    value: this.props.initValue || ''
+  };
+
+  handleUnitsEntry = ({target: { value }}) => {
     const isValid = this.validateInput(value);
+
     if (this.state.isValid != isValid) {
         this.props.onValidation('numOfUnitsSelector', isValid, {errorText: isValid ? '' : `מינמום ${this.state.minNumOfUnits} יח"ל נדרשות במקצוע`});
     }
-    const intValue = parseInt(value);
-    this.setState({ value: intValue, isValid });
+
+    this.setState({ value, isValid });
   }
 
   validateInput(value) {
@@ -38,9 +40,9 @@ export default class NumOfUnitsSelector extends React.PureComponent {
     return (
       <div>
         <Select
-           style={{textAlign: "center",}}
+           style={{textAlign: "center"}}
            fullWidth
-           onChange={(e) => this.handleUnitsEntry(e.target.value)}
+           onChange={this.handleUnitsEntry}
            error={this.state.value != '' && !this.state.isValid}
            value={this.state.value}
            required>

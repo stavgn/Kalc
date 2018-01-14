@@ -2,7 +2,7 @@ import React from 'React';
 import PropTypes from 'prop-types';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
-import styles from './styles';
+import './styles.scss';
 
 export default class UniversityLabel extends React.PureComponent {
   static propTypes = {
@@ -11,14 +11,11 @@ export default class UniversityLabel extends React.PureComponent {
     handleUniversitySelection: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSelected: false
-    };
+  state = {
+    isSelected: false
   }
 
-  selectUniversity() {
+  selectUniversity = () => {
     this.props.handleUniversitySelection(this.props.id);
     this.setState((prevState) =>{
       return {
@@ -29,10 +26,10 @@ export default class UniversityLabel extends React.PureComponent {
   render() {
     return (
         <Grid item xs={6} md={3} lg={2}>
-          <Paper style={styles.paper}>
-            <div onClick={()=> this.selectUniversity()} style={this.state.isSelected ? {...styles.labelWrapper, backgroundColor: '#f5f5f5'} : styles.labelWrapper}>
-            <span style={styles.helper}/>
-              <img style={styles.img} src={this.props.logoURL} />
+          <Paper className="labelPaper">
+            <div onClick={this.selectUniversity} className={this.state.isSelected ? 'labelWrapperClicked': 'labelWrapper'}>
+              <span className="helper" />
+              <img className="img" src={this.props.logoURL} />
             </div>
           </Paper>
         </Grid>

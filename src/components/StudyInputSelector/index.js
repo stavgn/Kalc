@@ -4,7 +4,7 @@ import Autosuggest from 'react-autosuggest';
 import { withStyles } from 'material-ui/styles';
 import InputField from './InputField';
 import Suggestion from './Suggestion';
-import SuggestionContainer from './SuggestionContainer'
+import SuggestionContainer from './SuggestionContainer';
 import suggestions from '../../static/data/ExtendedStudies';
 
 const styles = theme => ({

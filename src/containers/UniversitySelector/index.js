@@ -1,13 +1,12 @@
 import React from 'React';
 import PropTypes from 'prop-types';
+import Grid from 'material-ui/Grid';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Grid from 'material-ui/Grid';
 import { selectUniversity } from '../../actions/universitiesActions';
 import UniversityLabel from '../../components/UniversityLabel/';
-import styles from './styles';
 
-class UniversitySelector extends React.PureComponent {
+export class UniversitySelector extends React.PureComponent {
   static propTypes = {
     universities: PropTypes.array.isRequired,
     selectUniversity: PropTypes.func.isRequired
@@ -20,7 +19,7 @@ class UniversitySelector extends React.PureComponent {
       'Tel-Aviv University': '../../static/images/TLVLogo.png'
     }
 
-  handleUniversitySelection(id) {
+  handleUniversitySelection = (id) => {
     this.props.selectUniversity(id);
   }
 
@@ -29,10 +28,11 @@ class UniversitySelector extends React.PureComponent {
       <Grid item xs={12}>
         <Grid spacing={0} justify="center" container>
             {this.props.universities.map((curr) => {
-              return <UniversityLabel key={curr.id} handleUniversitySelection={(id) => this.handleUniversitySelection(id)} {...curr} />;
+              return <UniversityLabel key={curr.id} handleUniversitySelection={this.handleUniversitySelection} {...curr} />;
             })}
         </Grid>
-      </Grid>);
+      </Grid>
+    );
 
 
   }

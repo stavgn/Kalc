@@ -1,16 +1,16 @@
 import React from 'React';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { submitGradesForm } from '../../actions/userTypedGradesActions';
 import GradeHeadRow from '../../components/GradeHeadRow';
 import MandatoryStudiesGradesForm from '../MandatoryStudiesGradesForm';
 import ExtendedStudiesForm from '../../components/ExtendedStudiesForm';
 import PsychometricForm from '../../components/PsychometricForm';
-import styles from './styles';
+import  './styles.scss';
 
 class GradesForm extends React.PureComponent {
   static propTypes = {
@@ -62,11 +62,11 @@ class GradesForm extends React.PureComponent {
 
   render() {
     return (
-        <form style={{width: 'inherit', height: 'inherit', padding: '0 8px 0 8px'}} onSubmit={this.handleSubmit}>
+        <form className="gradesForm" onSubmit={this.handleSubmit}>
           <Grid item>
             <Grid container justify="center">
               <Grid item lg={8} md={12} xs={12}>
-                <Paper style={styles.paper}>
+                <Paper className="gradesPaper">
                   <GradeHeadRow />
                   <MandatoryStudiesGradesForm onValidation={this.updateValidation} />
                 </Paper>
@@ -76,7 +76,7 @@ class GradesForm extends React.PureComponent {
           <Grid item>
             <Grid container justify="center">
               <Grid item lg={8} md={12} xs={12}>
-                <Paper style={styles.paper}>
+                <Paper className="gradesPaper">
                   <ExtendedStudiesForm onValidation={this.updateValidation} />
                 </Paper>
               </Grid>
@@ -85,7 +85,7 @@ class GradesForm extends React.PureComponent {
           <Grid item>
             <Grid container justify="center" alignItems="center">
               <Grid item lg={8} md={12} xs={12}>
-                <Paper style={styles.paper}>
+                <Paper className="gradesPaper">
                   <PsychometricForm onValidation={this.updateValidation} />
                 </Paper>
               </Grid>

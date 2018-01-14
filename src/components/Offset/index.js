@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Hidden from 'material-ui/Hidden';
 import Grid from 'material-ui/Grid';
 
-export default class Offset extends React.Component {
+export default class Offset extends React.PureComponent {
   static propTypes = {
     xsUp: PropTypes.bool,
     xsDown: PropTypes.bool,
