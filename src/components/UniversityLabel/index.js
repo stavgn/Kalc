@@ -24,7 +24,6 @@ export default class UniversityLabel extends React.PureComponent {
     });
   }
   render() {
-    console.log(this.state.img);
     return (
         <Grid item xs={6} md={3} lg={2}>
           <Paper className="labelPaper">
