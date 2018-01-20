@@ -23,8 +23,12 @@ function configureStoreProd(initialState) {
     applyMiddleware(...middlewares)
     )
   );
-
-  store.subscribe(() => saveStateToLocalStorage(store.getState()));
+  let shouldSaveState = false;
+  store.subscribe(() => {
+    if(shouldSaveState)
+      saveStateToLocalStorage(store.getState());
+    shouldSaveState = true;
+  });
   return store;
 }
 
