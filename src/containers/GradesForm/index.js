@@ -5,16 +5,19 @@ import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { submitGradesForm } from '../../actions/userTypedGradesActions';
+import { toastWithButton } from '../../toastr';
+import { getStateFromLocalStorage } from '../../store/persistState';
+import { submitGradesForm, loadPersistedState} from '../../actions/userTypedGradesActions';
 import GradeHeadRow from '../../components/GradeHeadRow';
 import MandatoryStudiesGradesForm from '../MandatoryStudiesGradesForm';
-import ExtendedStudiesForm from '../../components/ExtendedStudiesForm';
-import PsychometricForm from '../../components/PsychometricForm';
+import ExtendedStudiesForm from '../ExtendedStudiesForm';
+import PsychometricForm from '../PsychometricForm';
 import  './styles.scss';
 
 class GradesForm extends React.PureComponent {
   static propTypes = {
-    submitGradesForm: PropTypes.func.isRequired
+    submitGradesForm: PropTypes.func.isRequired,
+    loadPersistedState: PropTypes.func.isRequired
   }
 
   state = {
@@ -24,6 +27,18 @@ class GradesForm extends React.PureComponent {
       PsychometricForm: false
     }
   }
+
+  componentDidMount() {
+    const savedGrades = getStateFromLocalStorage();
+    if(savedGrades) {
+      toastWithButton('info', {
+        text: 'הי! שמנו לב שבעבר הזנת  את ציונך למחשבון...',
+        buttonText: 'טען ציונים מחדש',
+        onButtonClick: () => this.props.loadPersistedState(savedGrades)
+      });
+    }
+  }
+
 
   updateValidation = (inputSrc, value) => {
     this.setState((prevState) => ({
@@ -111,7 +126,8 @@ class GradesForm extends React.PureComponent {
 const mapStateToProps = (state) => (state);
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitGradesForm: bindActionCreators(submitGradesForm, dispatch)
+    submitGradesForm: bindActionCreators(submitGradesForm, dispatch),
+    loadPersistedState:  bindActionCreators(loadPersistedState, dispatch)
   };
 };
 

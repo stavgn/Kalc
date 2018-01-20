@@ -38,12 +38,13 @@ class StudyInputSelector extends React.Component {
     onValidation: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
-    errorText: PropTypes.string.isRequired
+    errorText: PropTypes.string.isRequired,
+    initValue: PropTypes.string
 
   }
   state = {
-    isValid: false,
-    value: '',
+    isValid: this.props.initValue || false,
+    value: this.props.initValue || '',
     suggestions: [],
   };
 

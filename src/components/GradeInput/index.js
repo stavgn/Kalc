@@ -8,15 +8,22 @@ export default class GradeInput extends React.PureComponent {
     min: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    shouldDisplayErrorText: PropTypes.bool
+    shouldDisplayErrorText: PropTypes.bool,
+    initValue: PropTypes.number
   }
 
   constructor(props) {
     super(props);
-    this.state = {
-      value: '',
-      isValid: false
-    };
+  }
+
+  state = {
+    value: this.props.initValue || '',
+    isValid: this.props.initValue
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.initValue != this.state.value)
+      this.setState({value: nextProps.initValue, isValid: true});
   }
 
   handleGradeEntry(value){

@@ -7,7 +7,8 @@ export default class NumOfUnitsSelector extends React.PureComponent {
   static propTypes = {
     initValue: PropTypes.number,
     onValidation: PropTypes.func.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    minNumOfUnits: PropTypes.number
   }
 
   constructor(props) {
@@ -15,8 +16,7 @@ export default class NumOfUnitsSelector extends React.PureComponent {
   }
 
   state = {
-    isValid: this.props.initValue ? true : false,
-    minNumOfUnits: this.props.initValue,
+    isValid: !!this.props.initValue,
     value: this.props.initValue || ''
   };
 
@@ -24,15 +24,15 @@ export default class NumOfUnitsSelector extends React.PureComponent {
     const isValid = this.validateInput(value);
 
     if (this.state.isValid != isValid) {
-        this.props.onValidation('numOfUnitsSelector', isValid, {errorText: isValid ? '' : `מינמום ${this.state.minNumOfUnits} יח"ל נדרשות במקצוע`});
+        this.props.onValidation('numOfUnitsSelector', isValid, {errorText: isValid ? '' : `מינמום ${this.props.minNumOfUnits} יח"ל נדרשות במקצוע`});
     }
 
     this.setState({ value, isValid });
   }
 
   validateInput(value) {
-    if(this.state.minNumOfUnits)
-      return value >= this.state.minNumOfUnits;
+    if(this.props.minNumOfUnits)
+      return value >= this.props.minNumOfUnits;
     return true;
   }
 
@@ -53,6 +53,7 @@ export default class NumOfUnitsSelector extends React.PureComponent {
           <MenuItem value={5}>5</MenuItem>
         </Select>
         <input required name={`${this.props.name}.numOfUnits`} type="hidden" value={this.state.value} />
+        <input required name={`${this.props.name}.minNumOfUnits`} type="hidden" value={this.props.minNumOfUnits} />
       </div>
     );
   }

@@ -6,10 +6,10 @@ import StudyInputSelector from '../StudyInputSelector';
 
 export default class StudyInput extends React.PureComponent {
   static propTypes = {
-    initValue: PropTypes.string,
-    disabled: PropTypes.bool,
     errorText: PropTypes.string.isRequired,
-    onValidation: PropTypes.func.isRequired
+    onValidation: PropTypes.func.isRequired,
+    initValue: PropTypes.string,
+    disabled: PropTypes.bool    
   }
 
   render() {

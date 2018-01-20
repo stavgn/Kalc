@@ -1,15 +1,17 @@
 import React from 'React';
 import PropTypes from 'prop-types';
 import UUID from 'uuid/v4';
-import Offset from '../Offset';
-import GradesRow from '../GradesRow';
-import GradesColumn from '../GradesColumn';
-import AddExtendedStudyButton from '../AddExtendedStudyButton';
-import RemoveExtendedStudyButton from '../RemoveExtendedStudyButton';
+import { connect } from 'react-redux';
+import Offset from '../../components/Offset';
+import GradesRow from '../../components/GradesRow';
+import GradesColumn from '../../components/GradesColumn';
+import AddExtendedStudyButton from '../../components/AddExtendedStudyButton';
+import RemoveExtendedStudyButton from '../../components/RemoveExtendedStudyButton';
 
-export default class ExtendedStudiesForm extends React.PureComponent {
+class ExtendedStudiesForm extends React.Component {
   static propTypes = {
-    onValidation: PropTypes.func.isRequired
+    onValidation: PropTypes.func.isRequired,
+    extendedStudies: PropTypes.object
   }
 
   constructor(props) {
@@ -20,14 +22,45 @@ export default class ExtendedStudiesForm extends React.PureComponent {
       validations: {
         [studyId]: false
       },
-      extendedStudies: [
-        <GradesRow key={UUID()}>
-          <Offset smDown/>
-          <GradesColumn id={studyId} onValidation={this.updateValidation} key={studyId}/>
-        </GradesRow>
-      ],
+      extendedStudies:
+         [
+           <GradesRow key={UUID()}>
+            <Offset smDown/>
+            <GradesColumn id={studyId} onValidation={this.updateValidation} key={studyId}/>
+           </GradesRow>
+         ]
     };
   }
+
+  componentWillReceiveProps(nextProps) {
+    const nextExtendedStudiesKeys = Object.keys(nextProps.extendedStudies);
+    if(nextExtendedStudiesKeys.length > 0 && nextExtendedStudiesKeys.length != this.props.extendedStudies.length) {
+      this.setState({
+        isAllValid: true,
+        validations: nextExtendedStudiesKeys.reduce((acc, curr) => {
+          acc[curr] = true;
+          return acc;
+        },{}),
+        extendedStudies: this.generateExtendedStudyArray(nextProps.extendedStudies)
+      });
+
+    }
+  }
+
+  generateExtendedStudyArray(nextExtendedStudies){
+    return Object.keys(nextExtendedStudies).map((curr, index , arr) => {
+      const row = (
+        <GradesRow key={curr}>
+          {!arr[index + 1] && <Offset smDown/>}
+          <GradesColumn id={curr} onValidation={this.updateValidation} {...nextExtendedStudies[curr]} />
+          {arr[index + 1] && <GradesColumn id={arr[index + 1]} onValidation={this.updateValidation} {...nextExtendedStudies[arr[index + 1]]}/>}
+        </GradesRow>
+      );
+      delete arr[index + 1];
+      return row;
+    });
+  }
+
 
   updateValidation = (studyId, isValid) => {
     const validations = this.buildNewValidationsObj(studyId,isValid),
@@ -160,3 +193,11 @@ render() {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  const { extendedStudies } = state.userTypedGrades.bagrut;
+  return {
+    extendedStudies
+  };
+};
+export default connect(mapStateToProps)(ExtendedStudiesForm);

@@ -28,36 +28,43 @@ export default {
       [UUID()]: {
         study: 'מתמטיקה',
         grade: '',
+        minNumOfUnits: 3,
         numOfUnits: 3
       },
       [UUID()]: {
         study: 'אנגלית',
         grade: '',
+        minNumOfUnits: 3,
         numOfUnits: 3
       },
       [UUID()]: {
         study: 'ספרות עברית',
         grade: '',
+        minNumOfUnits: 2,
         numOfUnits: 2
       },
       [UUID()]: {
         study: 'הבעה עברית',
         grade: '',
+        minNumOfUnits: 2,
         numOfUnits: 2
       },
       [UUID()]: {
         study: 'היסטוריה',
         grade: '',
+        minNumOfUnits: 2,
         numOfUnits: 2
       },
       [UUID()]: {
         study: 'תנך',
         grade: '',
+        minNumOfUnits: 2,
         numOfUnits: 2
       },
       [UUID()]: {
         study: 'אזרחות',
         grade: '',
+        minNumOfUnits: 2,
         numOfUnits: 2
       },
       extendedStudies: {}
