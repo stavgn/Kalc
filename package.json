@@ -6,18 +6,15 @@
     "npm": ">=3"
   },
   "scripts": {
-    "preinstall": "node tools/nodeVersionCheck.js",
     "setup": "node tools/setup/setupMessage.js && npm install && node tools/setup/setup.js",
     "start-message": "babel-node tools/startMessage.js",
-    "prestart": "npm run start-message",
-    "start": "concurrently -k -r -s first \"npm run test:watch\" \"npm run open:src\" \"npm run lint:watch\"",
+    "start": "node tools/distServer.js",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "lint": "esw webpack.config.* src tools --color",
     "lint:watch": "npm run lint -- --watch",
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "rimraf ./dist",
-    "prebuild": "npm run lint && npm run test && npm run clean-dist",
     "build": "babel-node tools/build.js && npm run open:dist",
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",
@@ -30,14 +27,23 @@
   "author": "Cory House",
   "license": "MIT",
   "dependencies": {
+    "autosuggest-highlight": "3.1.1",
+    "express": "4.16.2",
+    "jquery": "3.2.1",
+    "lodash.throttle": "4.1.1",
+    "material-ui": "1.0.0-beta.27",
     "object-assign": "4.1.0",
+    "path": "0.12.7",
     "react": "16.2.0",
+    "react-autosuggest": "9.3.2",
     "react-dom": "16.2.0",
     "react-redux": "5.0.5",
     "react-router-dom": "4.2.2",
     "react-router-redux": "5.0.0-alpha.6",
     "redux": "3.6.0",
-    "redux-thunk": "2.1.0"
+    "redux-thunk": "2.1.0",
+    "toastr": "2.1.4",
+    "uuid": "3.1.0"
   },
   "devDependencies": {
     "autoprefixer": "7.1.4",
@@ -46,6 +52,7 @@
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.1",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-plugin-transform-react-constant-elements": "6.23.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.6",
     "babel-polyfill": "6.23.0",
@@ -53,6 +60,7 @@
     "babel-preset-react": "6.24.1",
     "babel-preset-react-hmre": "1.1.1",
     "babel-preset-stage-1": "6.24.1",
+    "babel-preset-stage-2": "6.24.1",
     "browser-sync": "2.18.12",
     "chalk": "2.0.1",
     "concurrently": "3.5.0",
@@ -132,7 +140,8 @@
           "env",
           "react",
           "react-hmre",
-          "stage-1"
+          "stage-1",
+          "stage-2"
         ]
       },
       "production": {
@@ -154,7 +163,8 @@
         ],
         "plugins": [
           "transform-react-constant-elements",
-          "transform-react-remove-prop-types"
+          "transform-react-remove-prop-types",
+          "transform-object-rest-spread"
         ]
       },
       "test": {
@@ -218,6 +228,14 @@
         {
           "forbid": [
             "any"
+          ]
+        }
+      ],
+      "import/no-unresolved": [
+        "error",
+        {
+          "ignore": [
+            "src/"
           ]
         }
       ],
