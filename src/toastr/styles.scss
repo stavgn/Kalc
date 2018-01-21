@@ -1,0 +1,12 @@
+@import "../../node_modules/toastr/build/toastr.min.css";
+
+.toastText {
+  font-family: 'Assistant Light';
+  font-size: 14px;
+  margin: 0 0 10px 0;
+}
+
+#toastRoot {
+  text-align: center;
+  margin-right: -30px;
+}
